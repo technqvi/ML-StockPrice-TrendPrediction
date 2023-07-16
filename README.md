@@ -16,9 +16,9 @@
 ![Process ML-StockPrice-TrendPrediction_READM](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/7dd356b0-3741-4b96-8df2-32762ba29ccb)
 1. Feed stream price data from Stock Market via Data Provider into MT4.
 2. Pull data from MT4 to Amibroker by setting DDE Universal Data Pluge-In on Abmibroker.
-3. Run Batch on Amibroker to generate indicator values like MA,MACD,RSI as feature input  and  export as CSV file every 15 minutes to given local path.
-4. Run Job on Window task scheduler to load model to make prediction  as label outout and store into SQL Server.
-5. Ambiborker retrieves data SQL Server as data source to visualize prediction result on chart pane.
+3. Run Batch on Amibroker to generate indicator values like MA,MACD,RSI as feature input  and  export as CSV file every 15 minutes to a given local path.
+4. Run Job on Window task scheduler to load model to make a prediction  as label output and store into SQL Server after finishing previouse step.
+5. Ambiborker retrieves data SQL Server as the data source to visualize prediction results on chart pane.
 
 ## Code Section in Each Folder 
 ### [S50M15_CleanData](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/S50M15_CleanData) : Preparing Data
