@@ -20,7 +20,7 @@
 4. Run Job on Window task scheduler to load model to make a prediction  as label output and store into SQL Server after finishing previouse step.
 5. Ambiborker retrieves data SQL Server as the data source to visualize prediction results on chart pane.
 
-## Code Section in Each Folder 
+## Main Section 
 ### [S50M15_CleanData](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/S50M15_CleanData) : Preparing Data
 Prepare stock price data By dropping, transforming, and enriching so that we can import cleaned data (Open, High, Low, Close) into Amibroker. 
 ### [MarkLable-S50F](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/MarkLable-S50F) :  Labeling Data
@@ -50,8 +50,13 @@ This is process to develop the XGBoost model to predict uptrend and downtrend.
 * Apply cross-validation and split-validation to evaluate the model's performance.
 * Apply the Ensemble Learning technique to improve the model to make better predictions by reducing model variance to get a consistent accuracy score.
 
+## Additional Section
 ### [Filter_MLPrediction](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/Filter_MLPrediction)
+To monitor model performance, we will get prediction results from the product to analyze  consecutive trends.
+
 ### [ML_Advanced_ParamTuning](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/ML_Advanced_ParamTuning)
+
+### [Filter_TradingZone](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/Filter_TradingZone)
 
 ### Book Reference
 [XGBoost With Python](https://machinelearningmastery.com/xgboost-with-python/) | [machine-learning-with-python](https://machinelearningmastery.com/machine-learning-with-python/) | [deep-learning-with-python](https://machinelearningmastery.com/deep-learning-with-python/) | [better-deep-learnin](https://machinelearningmastery.com/better-deep-learning/)
