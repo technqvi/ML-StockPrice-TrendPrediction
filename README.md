@@ -1,7 +1,7 @@
 # StockPrice-TrendPrediction 2020 (Uptrend and Downtrend Label)
-* Apply XGBoost and Deep Learing (Multi layer perceptron (MLP)) to classify trend direction of SET(Stock Exchange of Thailand Index).
-* Create labe manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by ploting uptrend and downtrend as label based on my trading experience with Techincal Analysis Indicator such as EMA, MACD,SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
-* We develop 2 models to make trend predction seperately. 
+* Apply XGBoost and Deep Learning (Multi layer perceptron (MLP)) to classify the trend direction of SET(Stock Exchange of Thailand Index).
+* Create labe manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by ploting uptrend and downtrend as labels based on my trading experience with Techincal Analysis Indicator such as EMA, MACD, and SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
+* Build 2 models to make trend prediction separately. 
   * UpTrend Model, There 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
   * DownTrend Model, There 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
  
@@ -55,8 +55,12 @@ This is process to develop the XGBoost model to predict uptrend and downtrend.
 To monitor model performance, we will get prediction results from the product to analyze  consecutive trends.
 
 ### [ML_Advanced_ParamTuning](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/ML_Advanced_ParamTuning)
-
+* Take Multiple Tuning Value On Cross Validation to do performance analysis to get top 10 accuracy measurement
+* Find the Best Feature From TopN Accuracy  Performance Analysis on CV by tuning hyperparameters such as learning_rate ,n_estimators
+  
 ### [Filter_TradingZone](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/Filter_TradingZone)
+* Do some research regarding trading strategy on  the trading zone/range in order to create custom indicators to use as input features for building model.
+* Sample custom indicators : Monitoring Consecutive Trend Direction, Resistnace&Support Range.  
 
 ### Book Reference
 [XGBoost With Python](https://machinelearningmastery.com/xgboost-with-python/) | [machine-learning-with-python](https://machinelearningmastery.com/machine-learning-with-python/) | [deep-learning-with-python](https://machinelearningmastery.com/deep-learning-with-python/) | [better-deep-learnin](https://machinelearningmastery.com/better-deep-learning/)
