@@ -12,8 +12,9 @@
 * Development Framework and Essential Packages: Python 3.8 on Anaconda Env  Scikit-learn, XGboost, Keras/Tensorflow ,Pasdas/Numpy
 
 ### Step&Process
- ![2023-07-14_23-00-44](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/397339a1-9c66-4fee-82d7-167ab79e8e4d)
-  
+ 
+  ![Process ML-StockPrice-TrendPrediction_READM](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/7dd356b0-3741-4b96-8df2-32762ba29ccb)
+
 
 ## Code Section in Each Folder 
 ### [S50M15_CleanData](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/S50M15_CleanData) : Preparing Data
@@ -23,7 +24,8 @@ Create train/test dataset  as CSV file on Amiboker software as below.
 * Create signal as label  on Amibroker by labeling trend direction toward chart pane as the screenshot below, there are  2 label files: 1. Uptrend Model 2. Downtrend Model.
 * Create  the features by writing AFL Script to generate technical analysis indicators  on Amibroker.
 * Merge the label file and feature file to the training dataset.
-<img width="1502" alt="Feature_Label-AmiBroker" src="https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/7a02e090-7f93-4cdb-9a54-e47765274681">
+<img width="1502" alt="Feature_Label-AmiBroker" src="https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/2dba064c-19de-4676-b923-a10c0eac715a">
+
 
 ### [Lab-S50F_XGBoost](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/MarkLable-S50F) : Build XGBoost Model (Main Model)
 This is process to develop the XGBoost model to predict uptrend and downtrend. 
