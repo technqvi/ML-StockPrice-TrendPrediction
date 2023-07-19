@@ -2,8 +2,8 @@
 * Apply XGBoost and Deep Learning (Multi layer perceptron (MLP)) to classify the trend direction of SET(Stock Exchange of Thailand Index).
 * Create labe manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by ploting uptrend and downtrend as labels based on my trading experience with Techincal Analysis Indicator such as EMA, MACD, and SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
 * Build 2 models to make trend prediction separately. 
-  * UpTrend Model, There 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
-  * DownTrend Model, There 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
+  * UpTrend Model, There  are 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
+  * DownTrend Model, There are 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
  
  ## Main flow
  ### Tool , OS and Sofware To Run on Production 
