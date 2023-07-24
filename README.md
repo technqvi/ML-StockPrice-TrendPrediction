@@ -1,4 +1,5 @@
 # StockPrice-TrendPrediction (Uptrend and Downtrend Label)
+This project involvs buildig classification model (XGBoost and MLP Deep Learning) to identifies trend direction(uptrend/downtrend) of stock price as the following details.
 * Apply XGBoost and Deep Learing (Multi layer perceptron (MLP)) to classify trend direction of SET(Stock Exchange of Thailand Index).
 * Create labe manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by ploting uptrend and downtrend as label based on my trading experience with Techincal Analysis Indicator such as EMA, MACD,SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
 * We develop 2 models to make trend predction seperately. 
