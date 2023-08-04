@@ -12,13 +12,13 @@ This project involves building classification model (XGBoost and MLP Deep Learni
 * Software Package MT4,AMibroker
 * Development Framework and Essential Packages: Python 3.8 on Anaconda Env  Scikit-learn, XGboost, Keras/Tensorflow ,Pasdas/Numpy
 
-### Step&Process
+### System Process as the following steps below.
+ ![SystemProces](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/4103a692-a991-4513-bfb5-5baa45542263)
  
-![Process ML-StockPrice-TrendPrediction_READM](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/7dd356b0-3741-4b96-8df2-32762ba29ccb)
-1. Feed stream price data from Stock Market via Data Provider into MT4.
+1. Feed real-time price data from Stock Market via Data Provider into MT4.
 2. Pull data from MT4 to Amibroker by setting DDE Universal Data Pluge-In on Abmibroker.
-3. Run Batch on Amibroker to generate indicator values like MA,MACD,RSI as feature input  and  export as CSV file every 15 minutes to a given local path.
-4. Run Job on Window task scheduler to load model to make a prediction  as label output and store into SQL Server after finishing previouse step.
+3. Create some technical anlysis indicator values like MA,MACD,RSI,My Custom Indicator  as feature input by batch on Amibroker and  export it as CSV file every 15 minutes to a given local path.
+4. Load model to make a prediction  as label output by Job on Window task scheduler and store predicted result(uptrend/downtrend) into SQL Server.
 5. Ambiborker retrieves data SQL Server as the data source to visualize prediction results on chart pane.
 
 ## Main Section 
