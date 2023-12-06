@@ -1,16 +1,16 @@
 # StockPrice-TrendPrediction (Uptrend and Downtrend Label)
-This project involves building classification model (XGBoost and MLP Deep Learning) to identify trend direction(Uptrend adn Downtrend) of stock price as below.
-* Apply XGBoost and Deep Learing (Multi layer perceptron (MLP)) to classify trend direction of SET(Stock Exchange of Thailand Index).
-* Create labe manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by ploting uptrend and downtrend as label based on my trading experience with Techincal Analysis Indicator such as EMA, MACD,SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
-* We develop 2 models to make trend predction seperately. 
-  * UpTrend Model, There 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
-  * DownTrend Model, There 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
+This project involves building classification model (XGBoost and MLP Deep Learning) to identify the trend direction(Uptrend and Downtrend) of stock price as below.
+* Apply XGBoost and Deep Learing (Multi layer perceptron (MLP)) to classify the trend direction of SET(Stock Exchange of Thailand Index).
+* Create label manually on Chart Price 15 minutes timeframe using [Amibroker Software](https://www.amibroker.com/) by marking trend directions like  uptrend and downtrend as labels based on my trading experience with Techincal Analysis Indicator such as EMA, MACD,SIGNAL and Custom Indicator(Combination between MACD and RSI to determine my own trading logic). 
+* We develop 2 models to make trend prediction separately. 
+  * UpTrend Model, There are 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
+  * DownTrend Model, There are 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
  
  ## Main flow
- ### Tool , OS and Sofware To Run on Production 
-* OS and Database: Window Server and Microsoft SQL Server Express Edition
+ ### Tool, OS and Sofware To Run on Production 
+* OS and Database: Windows Server and Microsoft SQL Server Express Edition
 * Software Package MT4,AMibroker
-* Development Framework and Essential Packages: Python 3.8 on Anaconda Env  Scikit-learn, XGboost, Keras/Tensorflow ,Pasdas/Numpy
+* Development Framework and Essential Packages: Python 3.8 on Anaconda Env  Scikit-learn, XGboost, Keras/Tensorflow,Pasdas/Numpy
 
 ### System Process as the following steps below.
  ![SystemProces](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/4103a692-a991-4513-bfb5-5baa45542263)
