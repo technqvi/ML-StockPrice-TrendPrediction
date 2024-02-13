@@ -17,7 +17,7 @@ This project involves 2 main parts
 * Software Package MT4,AMibroker
 * Development Framework and Essential Packages: Python 3.8 on Anaconda Env  Scikit-learn, XGboost, Keras/Tensorflow,Pasdas/Numpy
 
-### System Process as the following steps below.
+### ML System Process as the following steps below.
  ![SystemProces](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/4103a692-a991-4513-bfb5-5baa45542263)
  
 1. Feed real-time price data from the Stock Market via Data Provider into MT4.
@@ -25,6 +25,9 @@ This project involves 2 main parts
 3. Create some technical analysis indicator values like MA,MACD,RSI,My Custom Indicator  as input features by running a batch job on Amibroker in order to  export it as a CSV file every 15 minutes to a given local path.
 4. Load model to predict label output by Job on Window task scheduler and store predicted result(uptrend/downtrend) into SQL Server.
 5. Ambiborker retrieves data from SQL Server as the data source to visualize prediction results on the chart pane.
+
+### Rule-Based System Process as the following steps below.
+
 
 ## Main Section 
 ### [S50M15_CleanData](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/S50M15_CleanData) : Preparing Data
