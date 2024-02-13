@@ -6,9 +6,9 @@ This project involves 2 main parts
   * We develop 2 models to make trend prediction separately. 
     * UpTrend Model, There are 2 labels  such as  Uptrend=1 and Non-Uptrend=0.
     * DownTrend Model, There are 2 labels  such as  Downtrend=1 and Non-Downtrend=0.
-  * Building rules-based system trading to trade SET50 Future using Amibroker software
-    * Write trading signal logic (buy/sell) using [AmiBroker Formula Language (AFL)](https://www.amibroker.com/guide/AFL.html)
-    * Send buy/sell order to Stock Market.
+* Building rules-based system trading to trade SET50 Future using Amibroker software
+  * Write trading signal logic (buy/sell) using [AmiBroker Formula Language (AFL)](https://www.amibroker.com/guide/AFL.html)
+  * Send buy/sell order to Stock Market.
  
  
  ## Main flow
