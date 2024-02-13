@@ -30,7 +30,7 @@ This project involves 2 main parts
 ![SystemProces-RuleBase](https://github.com/technqvi/ML-StockPrice-TrendPrediction/assets/38780060/14603d6e-c1d7-4548-b667-5d45fd4f7b6e)
 1. Feed real-time price data from the Stock Market via Data Provider into MT4.
 2. Pull data from MT4 to Amibroker by setting DDE Universal Data Pluge-In on Abmibroker.
-3. Rule-based syste written with AFL on Amibroerk process buy/sell signal logic and send order to MT-4.
+3. Rule-based system that apply technical analysis indicator like RSI,ATR,MACD process buy/sell signal logic and send order to MT-4.
 4. MT-4 push buy/sell order to stock market.
 
 ## Main Section  (ML system)
@@ -64,7 +64,8 @@ This is a process to develop the XGBoost model to predict uptrend and downtrend.
 * Apply the Ensemble Learning technique to improve the model to make better predictions by reducing model variance to get a consistent accuracy score.
 
 ## Additional Section
-### [3TP-Robot-Trading-Amibroker](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/3TP-Robot-Trading-Amibroker) : Rule-based system develope by AFL Amibroker.
+### [3TP-Robot-Trading-Amibroker](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/3TP-Robot-Trading-Amibroker) 
+Rule-based system developed by AFL Amibroker.
 ### [Filter_MLPrediction](https://github.com/technqvi/ML-StockPrice-TrendPrediction/tree/main/Filter_MLPrediction)
 To monitor model performance, we will get prediction results from the product to analyze  consecutive trends.
 
