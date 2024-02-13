@@ -1,0 +1,8 @@
+
+dayPeriod=Param("DayHighWithClosePRice",25,1,250);
+dayPeriod2=Param("DayLowWithClosePRice",25,1,250);
+UpperLine= HHV( C, dayPeriod ) ;
+LowerLine = LLV( C, dayPeriod2) ;
+
+Plot(UpperLine,"UpLine",ParamColor("UpperBand",colorGrey50),  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(LowerLine,"LowLine",ParamColor("LowerBand",colorGrey50),ParamStyle("StyleLower",  styleLine|styleThick),Null,Null,0,0,2); 

@@ -1,0 +1,20 @@
+//https://forum.amibroker.com/t/applystop-calculation/879/4
+//Build-In ApplyStop
+dayPeriod= Param("DayPeriod" ,25);
+multiplier=Param("XMultiplier",3,1,200);
+
+UpperLine= HHV( H, dayPeriod ) ;
+LowerLine = LLV( L, dayPeriod) ;
+
+//For using ApplyStop(stopTypeTrailing, stopModePoint, ATRMultiple True, True );
+longStop= UpperLine - (multiplier* ATR( dayPeriod ));
+shortStop = LowerLine +( multiplier * ATR( dayPeriod ));
+
+
+Plot(UpperLine,"UpLine",ParamColor("UpperBand",colorGrey50),  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(LowerLine,"LowLine",ParamColor("LowerBand",colorGrey50),ParamStyle("StyleLower",  styleLine|styleThick),Null,Null,0,0,2);
+Plot(longStop,"LongStop", ParamColor("LongStop-Color", colorRed), ParamStyle("LongStop-Style", styleDashed|styleThick));
+Plot(shortStop,"ShortStop", ParamColor("ShortStop-Color", colorGold), ParamStyle("ShortStop-Style", styleDashed|styleThick));
+
+
+

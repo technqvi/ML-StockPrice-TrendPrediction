@@ -1,0 +1,16 @@
+function ATRTrailByChandelier(dayPeriod,multiplier,isLong){
+
+trailStop=Null;
+if(isLong==True)
+{
+linex= HHV( H, dayPeriod ) ;
+trailStop= linex - (multiplier* ATR( dayPeriod ));
+}
+
+else{
+linex = LLV( L, dayPeriod) ;
+trailStop = linex +( multiplier * ATR( dayPeriod ));
+}
+
+return trailStop;
+}

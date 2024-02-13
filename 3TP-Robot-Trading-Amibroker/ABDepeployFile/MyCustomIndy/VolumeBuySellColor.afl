@@ -1,0 +1,21 @@
+// Downloaded From www.WiseStockTrader.com
+SetBarsRequired(sbrAll,sbrAll);
+volMA=Param("MVForVol",25);
+
+// BUYING VOLUME AND SELLING VOLUME //
+
+BV = IIf( (H==L), 0, V*(C-L)/(H-L) );
+SV = IIf( (H==L), 0, V*(H-C)/(H-L) );
+
+PlotOHLC(SV,SV,0,0,"SellVolume",colorRed,styleCandle|styleNoTitle|styleNoLabel );
+PlotOHLC(SV,BV+SV,SV,BV+SV,"BuyVolume",colorbrightgreen ,styleCandle|styleNoTitle|styleNoLabel );
+
+Va = MA(V,volMA);
+
+PlotOHLC( Va, Va, 0, 0, "", ColorBlend( colorWhite , GetChartBkColor(), 0.4 ), styleNoLabel | styleCloud | styleNoRescale, Null, Null, Null, -1 );
+Plot(Va,"Average Volume "+volMA+" days",colorBlue,styleLine|styleNoLabel|styleThick );
+
+VI = V/Va;
+
+Title = "TotalVolume:"+WriteVal(V,5.0)+"   "+ "SellVolume:"+WriteVal(SV,5.0)+"   "+"BuyVolume:"+WriteVal(BV,5.0)+"   "+"Vol/VolMA"+WriteVal(VI,1.2)+"   "+
+"BuyVolume:"+WriteVal(100*BV/(BV+SV),2.0)+"%"+"   "+"SellVolume:"+WriteVal(100*SV/(BV+SV),2.0)+"%";

@@ -1,0 +1,30 @@
+#include<ATRForTralingStop.afl>
+
+
+PeriodsForStDev = 20 ;
+
+PeriodsForPriceField=-1;
+
+P=C;
+
+StdDevLineTop=Null;
+StdDevLineButtom=Null;
+
+if(PeriodsForPriceField==0){
+StdDevLineTop=P+StDev(P,PeriodsForStDev,False);
+StdDevLineButtom=P-StDev(P,PeriodsForStDev,False);
+}
+else{
+StdDevLineTop= Ref(P,PeriodsForPriceField)+StDev(P,PeriodsForStDev,False);
+StdDevLineButtom=Ref(P,PeriodsForPriceField)-StDev(P,PeriodsForStDev,False);
+
+}
+
+Filter=1;
+AddColumn(P,"Close");
+AddColumn(Ref(P,PeriodsForPriceField),"Ref "+PeriodsForPriceField,1.2);
+AddColumn(StDev(Ref(P,PeriodsForPriceField),PeriodsForStDev,False),"StDev "+PeriodsForStDev+" of "+PeriodsForPriceField+" bars",1.2);
+AddColumn( StdDevLineTop, "StDevButtom",1.2);
+AddColumn( StdDevLineButtom, "StdDevLineButtom",1.2 ); 
+
+

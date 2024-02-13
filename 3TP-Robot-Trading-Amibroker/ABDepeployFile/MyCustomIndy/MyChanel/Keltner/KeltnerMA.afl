@@ -1,0 +1,16 @@
+P = ParamField("Price field",-1);
+MAPeriods = Param("MA-Periods", 20 );
+ATRPeriods = Param("ATR-Periods", 20 );
+Width = Param("Width", 2, 0, 10, 0.05 );
+Color = ParamColor("Color", colorDarkGrey );
+ColorMid = ParamColor("ColorMid", colorDarkRed);
+Style = ParamStyle("Style", styleLine | styleThick|styleNoLabel);
+StyleMid = ParamStyle("StyleMid", styleLine | styleThick|styleDots| styleNoLabel);
+{ //Kelterner calculation return 3 values
+CenterLine = MA( P, MAPeriods );
+KTop   = CenterLine + Width * ATR( ATRPeriods );
+KBot = CenterLine - Width * ATR( ATRPeriods );
+}
+Plot( KTop, "KBTopMA" + _PARAM_VALUES(), Color, Style ); 
+Plot( CenterLine, "CenterMA" + _PARAM_VALUES(), ColorMid, StyleMid ); 
+Plot( KBot, "KBBotMA" + _PARAM_VALUES(), Color, Style ); 

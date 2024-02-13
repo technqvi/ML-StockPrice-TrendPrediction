@@ -1,0 +1,293 @@
+
+function ATRTrailByChandelier( dayPeriod, multiplier, isLong )
+{
+
+    trailStop = Null;
+
+    if( isLong == True )
+    {
+        linex = HHV( H, dayPeriod ) ;
+        trailStop = linex - ( multiplier * ATR( dayPeriod ) );
+    }
+
+    else
+    {
+        linex = LLV( L, dayPeriod ) ;
+        trailStop = linex + ( multiplier * ATR( dayPeriod ) );
+    }
+
+    return trailStop;
+}
+
+_SECTION_BEGIN( "Price" );
+SetChartOptions( 0, chartShowArrows | chartShowDates );
+_N( Title = StrFormat( "{{NAME}} - {{INTERVAL}} {{DATE}} Open %g, Hi %g, Lo %g, Close %g (%.1f%%) {{VALUES}}", O, H, L, C, SelectedValue( ROC( C, 1 ) ) ) );
+Plot( C, "Close", ParamColor( "Color", colorDefault ), styleNoTitle | ParamStyle( "Style" ) | GetPriceStyle() );
+_SECTION_END();
+
+_SECTION_BEGIN( "Autotrade Configulation" );
+////////////////////////////////// initialized user variable (must change) ///////////////////////////////
+{
+     //  _N( symbol = "S50Z18" );
+     // _N( symbol = "S50H19" );
+     _N( symbol = "S50_DUMMY" );
+    
+    _N( systemName = "3TP_S50_DUMMY" );
+    
+    
+    //For demo
+    _N( key = "6380D7F9A65FD600A4321F07CD86608477C469B8CDD76F0E705E467E52D2775045CD90D6EF33D4C640E3CEC2A77E5983163978890B23719318D494B5A5D83D04" );
+  
+  
+  //For Live
+  //  _N( key = "47C9A4020487C519EE57D183DC83942977C469B8CDD76F0E592BDBAB8157492258E3D97463E45DC1FB233CA149180752A80D35C726244385E52962380B30679B" );
+  
+    _N( ip = "127.0.0.1" );
+    port = 5500;
+    lotSize = 1;
+}
+
+
+printf( "Trade: " + symbol + "\n" );
+
+SetBarsRequired( -2, 0 );
+
+{
+    //Indicator setup
+aPeriod1 = 10;
+    aPeriod2 = 15;
+    aFactor1 = 3;
+    aFactor2 = 2.5; 
+
+    bPeriod1 = 100;
+    bPeriod2 = 80; 
+    bFactor1 = 7;  
+    bFactor2 = 8.5;
+
+
+    rsiUp = 55;
+    rsiDown = 43;
+
+    rsix = RSI() ;
+    dynamic = true;
+
+    if( dynamic )
+    {
+        atrail = IIf( rsix > rsidown AND rsix < rsiup, ATRTrailByChandelier( aPeriod2, aFactor2, true ), ATRTrailByChandelier( aPeriod1, aFactor1, true ) ) ;
+        btrail = IIf( rsix > rsidown AND rsix < rsiup, ATRTrailByChandelier( bPeriod2, bFactor2, true ), ATRTrailByChandelier( bPeriod1, bFactor1, true ) ) ;
+    }
+    else
+    {
+        atrail = ATRTrailByChandelier( aPeriod1, aFactor1, true );
+        btrail = ATRTrailByChandelier( bPeriod1, bFactor1, true );
+    }
+
+    if( dynamic )
+    {
+        Buy = IIf( rsix > rsiDown AND rsix <rsiUp, C > atrail  AND C > btrail, rsix > rsiUp AND( C > atrail AND  C > btrail ) );
+        Sell = IIf( rsix > rsiDown AND rsix < rsiUp, C < atrail AND  C < btrail, rsix < rsidown  AND( C < atrail  AND C < btrail ) );
+
+    }
+    else
+    {
+        Buy = rsix > rsiUp AND( C > atrail AND  C > btrail );
+        Sell = rsix < rsidown  AND( C < atrail  AND C < btrail );
+    }
+
+    Short = Sell;
+    Cover = Buy;
+
+
+
+}
+
+
+{
+    //Configure to send signal to smart bridge
+
+
+    BuyCondition = Buy;
+    SellCondition = Sell;
+    ShortCondition = Short;
+    CoverCondition = Cover;
+
+    ApplyExRem = 1;
+    //0 is don't apply exrem
+
+    if( ApplyExRem == 1 )
+    {
+        BuyCondition = ExRem( BuyCondition, SellCondition );
+        SellCondition = ExRem( SellCondition, BuyCondition );
+        ShortCondition = ExRem( ShortCondition, CoverCondition );
+        CoverCondition = ExRem( CoverCondition, ShortCondition );
+
+
+
+    }
+    else
+        if( ApplyExRem == 2 )
+        {
+            BuyCondition = ExRem( BuyCondition, ShortCondition );
+            ShortCondition = ExRem( ShortCondition, BuyCondition );
+        }
+
+
+}
+{
+    // Using Flip to expand signal as portfolio position
+    BuySignal = Flip( BuyCondition, SellCondition );
+    SellSignal = 0;
+    ShortSignal = Flip( ShortCondition, CoverCondition );
+    CoverSignal = 0;
+}
+
+{
+    //plot chart
+
+
+    /* Plot Buy and Sell Signal Arrows */
+    PlotShapes( IIf( Buy, shapeSquare, shapeNone ), colorWhite ,0, L, Offset = -10 );
+    PlotShapes( IIf( Buy, shapeSquare, shapeNone ), colorWhite, 0, L, Offset = -30 );
+    PlotShapes( IIf( Buy, shapeUpArrow, shapeNone ),IIf( rsix > rsiDown AND rsix <rsiUp ,colorBlue, colorGreen), 0, L, Offset = -20 );
+
+    PlotShapes( IIf( Sell, shapeSquare, shapeNone ), colorWhite, 0, H, Offset = 10 );
+    PlotShapes( IIf( Sell, shapeSquare, shapeNone ), colorWhite, 0, H, Offset = 30 );
+    PlotShapes( IIf( Sell, shapeDownArrow, shapeNone ),IIF(rsix > rsiDown AND rsix < rsiUp,colorBrown, colorRed), 0, H, Offset = -20 );
+
+}
+
+//////////////////////////////// Set Portfolio Position ///////////////////////////////
+{
+    targetPosition = LastValue( Ref( ( BuySignal - ShortSignal ), -1 ) ); // Don't forget to delay your signal
+
+    contact = 1;
+    targetPosition = targetPosition * contact;
+
+}
+
+//////////////////////////////// initialized system variable (not change) ////////////////////////////////
+{
+    RequestTimedRefresh( 1 );
+    nowTime = LastValue( DateTime() );
+    dateAll = DateTime();
+    lb = LastValue( BarIndex() ); //last bar index
+    _N( autoTradeStatus = "Offline" );
+    timeTemp = StaticVarGet( systemName + "timeTemp" );
+    nowBar = StaticVarGet( systemName + "nowBar" );
+    dow = Now( 9 );
+    weekEnd = IIf( ( dow == 1 OR dow == 7 ), 1, 0 );
+    marketOpen1 = 094500;//09:45:00;
+    marketClose1 = 123000;
+    marketOpen2 = 141500;
+    marketClose2 = 165500;
+    //marketON = ( ( Now( 4 ) >= marketOpen1 AND Now( 4 ) < marketClose1 ) OR( Now( 4 ) >= marketOpen2 AND Now( 4 ) < marketClose2 ) ) AND NOT weekEnd;
+    marketON =  True;
+
+    marketOFF = NOT marketON ;
+
+    sAutoTrading = Nz( StaticVarGet( "sAutoTrading" ) ); // Model Status Turn on or Turn off save in Static Variable "ExampleSystem"
+    ATonTrigger = ParamTrigger( "Start AutoTrading", "START" ); // Turn on Button in Parameter
+    AToffTrigger = ParamTrigger( "Stop AutoTrading", "STOP" ); // Turn off Button in Parameter
+    Reset = ParamTrigger( "Reset", "Reset" ); // Make a reset for model
+
+    if( ATonTrigger ) // Set Turn on in Static Variable "ExampleSystem"
+    {
+        StaticVarSet( "sAutoTrading", 1 );
+        _TRACEF( "Model Start" );
+    }
+
+    if( AToffTrigger ) // Set Turn off in Static Variable "ExampleSystem"
+    {
+        StaticVarSet( "sAutoTrading", 0 );
+        _TRACEF( "Model Stop" );
+    }
+
+    if( reset ) // Reset all Static Variable (not delete clear value only)
+    {
+        StaticVarSet( systemName + "timeTemp", 0, True );
+        StaticVarSet( systemName + "nowBar", 0 , True );
+        StaticVarSet( "sAutoTrading", 0 , True );
+        _TRACEF( "!CLEAR!" );
+        _TRACEF( "Model Reset" );
+    }
+
+    printf( NumToStr( Now( 5 ), formatDateTime ) );
+
+    printf( "\n#####################\n" );
+
+    if( StaticVarGet( "sAutoTrading" ) )
+    {
+        printf( "System ON" );
+    }
+    else
+    {
+        printf( "System OFF" );
+    }
+
+    printf( WriteIF( marketOn, "\nMarket ON", "\nMarket OFF" ) );
+}
+
+//////////////////////////////// system action (can change carefully) ////////////////////////////////
+//Do only when Model Turn On
+if( StaticVarGet( "sAutoTrading" ) )
+{
+    autoTradeStatus = "Stand By";
+
+    //Do only market on
+    if( LastValue( marketON ) )
+    {
+        autoTradeStatus = "Ready";
+
+        //do when time change (last time save in Static Variable "ExampleSystemtimeTemp")
+        if( Now( 5 ) != timeTemp )
+        {
+            autoTradeStatus = "Action";
+            //if do save now time in Static Variable "ExampleSystemtimeTemp"
+            StaticVarSet( systemName + "timeTemp", Now( 5 ), True );
+            ///////////////////////////////////// action in realtime before check last bar /////////////////////////////////////
+
+
+
+
+            /////////////////////////////////// end action in realtime before check last bar ///////////////////////////////////
+            //do when bar change (last bar time save in Static Variable "ExampleSystemnowBar")
+            if( dateAll[lb]  != nowBar )
+            {
+                //if do save now bar in Static Variable "ExampleSystemnowBar"
+                StaticVarSet( systemName + "nowBar", dateAll[lb], True );
+                ///////////////////////////////////////// action once last bar (on last bar) /////////////////////////////////////////
+
+                CAF_MT4_SetPortPosition( symbol, key, ip, port, targetPosition );
+
+                /////////////////////////////////////// end action once last bar (on last bar) ///////////////////////////////////////
+            }
+
+            ///////////////////////////////////// action in realtime after check last bar ////////////////////////////////////
+
+
+
+
+            /////////////////////////////////// end action in realtime after check last bar //////////////////////////////////
+        }
+    }
+}
+
+printf( "\nAutotrade Status = " + autoTradeStatus );
+printf( "\n#####################" );
+printf( "\nTarget Portfolio = %g", targetPosition );
+
+{
+    // manual sending
+
+
+    testSendOder = ParamTrigger( "Test Send Order Manually", "Test" );
+
+    target = Param( "target", 0, -100, 100 );
+
+    if( testSendOder )
+    {
+        _TRACEF( "#Send order manually : NowPort = %g", CAF_MT4_SetPortPosition( symbol, key, ip, port, target ) );
+    }
+}
+
+_SECTION_END();

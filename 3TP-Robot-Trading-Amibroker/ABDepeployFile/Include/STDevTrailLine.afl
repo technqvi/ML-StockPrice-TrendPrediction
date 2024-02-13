@@ -1,0 +1,16 @@
+function STDevTrailLine(Ptype ,RefPeriods,PeriodsForStDev,isLong){
+
+    StdDevLine=Null;
+    if(isLong){
+    StdDevLine=Ptype + StDev( Ptype, PeriodsForStDev, False );
+  
+    }
+    {
+      StdDevLine = Ptype - StDev( Ptype, PeriodsForStDev, False );
+    } 
+  StdDevLine=Ref(StdDevLine,RefPeriods );
+  return  StdDevLine;
+  }
+
+
+

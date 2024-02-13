@@ -1,0 +1,13 @@
+procedure MyDonchianChannel( DCLength ) 
+{ 
+DCLength=Param("DCLength",22,2,300,1);
+
+
+DonchianUpper =HHV(Ref(H,-1),DCLength);
+DonchianLower = LLV(Ref(L,-1),DCLength);
+DonchianMiddle = (DonchianUpper+DonchianLower)/2;
+
+Plot(DonchianUpper,"UpperLine", colorBrown,styleLine|styleThick );
+Plot(DonchianMiddle,"MidleLine",colorGrey50, styledots|styleThick);
+Plot(DonchianLower,"LowerLine",colorBrown,styleLine|styleThick); 
+} 

@@ -1,0 +1,14 @@
+function HiMidLowValueByDonchianChannel( upperx, midx,lowerx )
+{
+
+xUpper =HHV(Ref(H,-1),DCLength);
+xLower = LLV(Ref(L,-1),DCLength);
+xMiddle = (DonchianUpper+DonchianLower)/2;
+
+  VarSet( upperx, NumToStr(xUpper) ); 
+  VarSet( midx,NumToStr( xMiddle) );
+  VarSet( lowerx,NumToStr( xLower)); 
+
+  return;
+}
+//

@@ -1,0 +1,104 @@
+// start index =1 for( i = 1; i < BarCount; i++ )
+//Error from uncalculated array bar due to being Zero value
+vPeriod =  Param( "Volatility Period", 50 );
+XFactor = Param( "X Factor" , 3.4 );
+
+hToL = H - L;
+x1pt5HL = 1.5 * ( MA( H, vPeriod ) - MA( L, vPeriod ) );
+HiLo = IIF( hToL < x1pt5HL, hToL, x1pt5HL );
+
+//for( i = 0; i < BarCount; i++ )
+//{
+//    if( hToL[i] < x1pt5HL[i] )
+//        HiLo[i] = hToL[i];
+//    else
+//        HiLo[i] = x1pt5HL [i];
+//}
+
+
+HRef = IIf( L <= Ref( H, -1 ) , H - Ref( C, -1 ) , ( H - Ref( C, -1 ) ) - ( 0.5 * ( L - Ref( H, -1 ) ) ) ) ;
+LRef = IIf( H >= Ref( L, -1 ) , Ref( C, -1 ) - L , ( Ref( C, -1 ) - L ) - ( 0.5 * ( Ref( L, -1 ) - H ) ) ) ;
+
+HiLoHRefMax = max( HiLo, HRef );
+HiLoHRefMaxLRefMax = max( HiLoHRefMax, LRef );
+
+
+ATRMod = EMA( HiLoHRefMaxLRefMax, 2 * vPeriod - 1 );
+Loss = XFactor * ATRMod;
+
+WaitingForEntry = True;
+FirstTrade = Param( "LongTrade", 1 ); //enter 1 for long, any other number for short
+
+dt = DateTime();
+xtrail = 0;
+
+initMonth=1;
+initDay=1;
+initYear=2009;
+
+ /*
+ If WaitingForEntry And ((BarYear >= InitialYear And BarMonth >= InitialMonth And BarDay >= InitialDay)
+           Or (BarYear >= InitialYear And BarMonth > InitialMonth)  Or BarYear > InitialYear) Then
+*/
+
+ //if( WaitingForEntry[i]==True AND ( (Year()>=initYear AND  Month()>=initMonth AND Day()>=initDay)  OR ( Year()>=initYear   AND Month()>initMonth) OR Year()>initYear  ) )
+ //{
+ //}
+
+
+for( i = 1; i < BarCount; i++ )
+{
+
+
+    if( FirstTrade == 1 )
+    {
+        WaitingForEntry[i] = False;
+        xtrail[i] = C[i] - Loss[i];
+    }
+    else
+    {
+        WaitingForEntry[i] = False;
+        xtrail[i] = C[i] + Loss[i];
+    }
+
+
+
+        if( WaitingForEntry[i] == False )
+        {
+           
+            if( Close[i] > xtrail[i - 1] AND Close[i - 1] > xtrail[i - 1] )
+                xtrail[i] = Max( xtrail[i - 1], Close[i] - loss[i] );
+
+            else
+            {
+                if( Close[i] < xtrail[i - 1] AND Close[i - 1] < xtrail[i - 1] )
+                    xtrail[i] = Min( xtrail[i - 1], Close[i] + loss[i] );
+
+                else
+                {
+                    if( Close[i] > xtrail[i - 1] )
+                        xtrail[i] = Close[i] - loss[i];
+                    else
+                        xtrail[i] = Close[i] + loss[i];
+                }
+            }
+
+        }  
+
+        _TRACE( "#" + xtrail[i] + " @" + DateTimeToStr( dt[i] ) );
+
+ 
+} //for
+
+
+
+Filter = 1;
+AddColumn( Open, "Open", 1.2 );
+AddColumn( High, "High", 1.2 );
+AddColumn( Low, "Low", 1.2 );
+AddColumn( Close, "Close", 1.2 );
+AddColumn( xtrail, "Atr Trail", 1.2 );
+
+
+Plot(xtrail,"LossLine", ParamColor( "Color", colorRed ), ParamStyle("Style",styleLine|styleThick|styleDashed) );
+

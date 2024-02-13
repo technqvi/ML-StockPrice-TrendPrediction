@@ -1,0 +1,6 @@
+function XDateNums( d , m , y)
+{
+MyDate   = ((y - 1900) * 10000) + (m * 100) + d;
+Dates= myDate == DateNum();   
+return Dates;
+}

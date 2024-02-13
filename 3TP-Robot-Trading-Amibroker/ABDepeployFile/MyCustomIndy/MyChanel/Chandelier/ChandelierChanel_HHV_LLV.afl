@@ -1,0 +1,20 @@
+//From http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:chandelier_exit 5
+//Chandelier Exit (long) = 22-day High - ATR(22) x 3
+//Chandelier Exit (short) = 22-day Low + ATR(22) x 3
+
+//https://www.amibroker.com/guide/afl/hhv.html
+//https://www.amibroker.com/guide/afl/llv.html
+//SYNTAX	hhv( ARRAY, periods )
+//RETURNS	ARRAY
+//FUNCTION	Calculates the highest value in the ARRAY over the preceding periods (periods includes the current day). HHV accepts periods parameter that can be constant as well as time-variant (array).
+//EXAMPLE	The formula "hhv( close, 4)" returns the highest closing price over the preceding four periods; "hhv( high, 8)" returns the highest high price over the preceding eight periods.
+
+
+
+dayPeriod=Param("DayHigh",25,1,250);
+dayPeriod2=Param("DayLow",25,1,250);
+UpperLine= HHV( H, dayPeriod ) ;
+LowerLine = LLV( L, dayPeriod2) ;
+
+Plot(UpperLine,"UpLine",ParamColor("UpperBand",colorGrey50),  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(LowerLine,"LowLine",ParamColor("LowerBand",colorGrey50),ParamStyle("StyleLower",  styleLine|styleThick),Null,Null,0,0,2); 

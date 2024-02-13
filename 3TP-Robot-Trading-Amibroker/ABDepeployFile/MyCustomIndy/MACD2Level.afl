@@ -1,0 +1,23 @@
+shortmacd1=Param("ShortMACD#1",12);
+longmacd1=Param("LongMACD#1",26);
+signal1=Param("Signal#1",10);
+
+shortmacd2=Param("ShortMACD#2",5);
+longmacd2=Param("LongMACD#2",34);
+signal2=Param("Signal#2",10);
+
+ 
+Plot(ml1=MACD(shortmacd1,longmacd1),"MACD#1",  ParamColor("MACDColor#1",colorGreen), ParamStyle("MACDStyle#1",styleLine|styleThick) );
+Plot(sl1=Signal(shortmacd1,longmacd1,signal1),"Signal#1",ParamColor("SignalColor#1",colorRED),ParamStyle("SignalStyle#1",styleDots));
+Plot( ml1-sl1, "MACD Histogram For MACD#1", ParamColor("Histogram color MACD#1", colorDefault ), styleNoTitle | ParamStyle("Histogram MACD#1 style", styleHistogram | styleNoLabel, maskHistogram ) );
+
+
+ Plot(MACD(shortmacd2,longmacd2),"MACD#2",ParamColor("MACDColor#2",colorBlack),ParamStyle("MACDStyle#2",styleLine|styleThick) );
+ Plot(Signal(shortmacd2,longmacd2,signal2),"Signal#2",ParamColor("SignalColor#2",colorGrey40),ParamStyle("SignalStyle#2",styleDots));
+ PlotGrid( 0 ,colorBrown,10,2);
+ 
+ 
+ 
+// Plot( ml = MACD(r1, r2), StrFormat(_SECTION_NAME()+"(%g,%g)", r1, r2), ParamColor("MACD color", colorRed ), ParamStyle("MACD style") );
+//Plot( sl = Signal(r1,r2,r3), "Signal" + _PARAM_VALUES(), ParamColor("Signal color", colorBlue ), ParamStyle("Signal style") );
+//Plot( ml-sl, "MACD Histogram", ParamColor("Histogram color", colorDefault ), styleNoTitle | ParamStyle("Histogram style", styleHistogram | styleNoLabel, maskHistogram ) );

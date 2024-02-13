@@ -1,0 +1,64 @@
+
+//oversold and overbought is array
+oversold = Param( "Oversold level", 40, 1, 100, 1 );
+overbought = Param( "Overbought level", 60, 1, 100, 1 );
+periods = Param( "Periods", 15, 1, 200, 1 );
+
+
+tfType = ParamList("BigTimeFrame", "hourly|day|week|month",1 );
+
+if(tfType =="hourly")
+tfType=inHourly;
+else if(tfType=="day")
+tfType=inDaily;
+else if(tfType=="week")
+tfType=inWeekly;
+else if(tfType=="month")
+tfType=inMonthly;
+
+TimeFrameSet( tfType ); 
+rsix=RSI(periods);
+TimeFrameRestore();
+
+TfRSI=TimeFrameExpand(rsix,tfType,expandFirst);
+
+
+_SECTION_BEGIN("RSI");
+
+
+z = RSI( periods);
+ 
+
+
+ Plot( TfRSI, _DEFAULT_NAME(),ParamColor("TfRSI-Color", colorBlue) ,ParamStyle("TfRSI-Style" ,styleLine |styleThick ));
+Plot( z, _DEFAULT_NAME(), colorDefault , styleLine |styleThick );
+Plot( 50, _DEFAULT_NAME(), colorBlack , styleLine|styleNoTitle |styleThick );
+Plot( overbought, _DEFAULT_NAME(), colorGreen , styleLine|styleNoTitle |styleThick );
+Plot( oversold , _DEFAULT_NAME(), colorRed , styleLine|styleNoTitle |styleThick );
+PlotOHLC(z,z,50,z,"",IIf(z>50,colorGreen,colorRed),styleCloud|styleClipMinMax,oversold,overbought);
+ 
+
+//Plot( 50, _DEFAULT_NAME(), colorBlack , styleLine|styleNoTitle |styleThick );
+//Plot( overbought, _DEFAULT_NAME(), colorGreen , styleLine|styleNoTitle |styleThick );
+//Plot( oversold , _DEFAULT_NAME(), colorRed , styleLine|styleNoTitle |styleThick );
+
+
+//Plot( TfRSI, _DEFAULT_NAME(),ParamColor("TfRSI-Color", colorBlue) ,ParamStyle("TfRSI-Style" ,styleLine |styleThick |styleDashed));
+
+//Plot( z, _DEFAULT_NAME(), colorDefault , styleLine |styleThick );
+//PlotOHLC(z,z,50,z,"",IIf(z>50,colorGreen,colorRed),styleCloud|styleClipMinMax,oversold,overbought);
+//PlotOHLC(TfRSI,TfRSI,50,TfRSI,"",IIf(TfRSI>50,colorGreen,colorRed),styleCloud|styleClipMinMax,oversold,overbought);
+ //PlotOHLC(TfRSI,TfRSI,50,TfRSI,"",IIf(TfRSI>overbought,colorGreen,IIf(TfRSI<oversold,colorRed,colorYellow)),styleCloud|styleClipMinMax,oversold,overbought);
+ 
+_SECTION_END();
+
+
+
+
+
+
+
+
+
+
+

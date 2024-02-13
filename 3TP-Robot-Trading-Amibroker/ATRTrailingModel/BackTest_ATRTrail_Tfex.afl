@@ -1,0 +1,57 @@
+
+#include<ATRForTralingStop.afl>
+
+{// OPT
+
+SetOption("InitialEquity",100000);
+SetOption("CommissionMode",3);
+SetOption("MaxOpenPositions",1);
+SetOption("CommissionAmount",50);
+SetOption("Futuresmode",True);
+
+
+//SetOption("xxxx",xxx);
+SetOption("AllowPositionShrinking",True);
+SetOption("AllowSameBarExit",False);
+SetOption("PriceBoundChecking",False);
+SetOption("ReverseSignalForcesExit",False);
+SetOption("UsePrevBarEquityForPosSizing",False);
+
+SetOption("InterestRate",0);
+SetOption("MinPosValue",0);
+SetOption("MinShares",RoundLotSize);
+
+SetTradeDelays(1,1,1,1);
+
+TickSize=0.1;
+PointValue=200;
+RoundLotSize=1;
+MarginDeposit=10000;
+
+
+NumContracts = 10;
+SetPositionSize(NumContracts ,spsShares);
+
+Slip=0;
+BuyPrice=C+Slip;
+SellPrice=C-Slip;
+
+
+
+{ //Signal
+
+xtrail_1=ATRForTralingStop(25,2);
+xtrail_2=ATRForTralingStop(50,3.5);
+
+Buy=C>xtrail_1 AND  C>xtrail_2;
+
+Sell = C<xtrail_1;
+
+ 
+
+
+
+}
+
+
+}

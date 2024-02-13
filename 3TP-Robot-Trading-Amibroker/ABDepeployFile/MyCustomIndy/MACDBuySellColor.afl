@@ -1,0 +1,8 @@
+shortMACD=Param("shortMACD",12);
+longMACD=Param("longMACD",26);
+signalMACD=Param("signalMACD",10);
+ 
+ 
+ dynamic_color=IIf(MACD(shortMACD,longMACD)>0,colorGreen,colorRed);
+Plot(MACD(shortMACD,longMACD),"My MACD",dynamic_color,styleHistogram|styleThick);
+Plot(Signal(shortMACD,longMACD,signalMACD),"My signal",colorDefault,styleLine|styleThick,Null,Null,0,1);

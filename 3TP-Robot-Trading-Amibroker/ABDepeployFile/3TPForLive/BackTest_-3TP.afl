@@ -1,0 +1,179 @@
+
+function ATRTrailByChandelier( dayPeriod, multiplier, isLong )
+{
+
+    trailStop = Null;
+
+    if( isLong == True )
+    {
+        linex = HHV( H, dayPeriod ) ;
+        trailStop = linex - ( multiplier * ATR( dayPeriod ) );
+    }
+
+    else
+    {
+        linex = LLV( L, dayPeriod ) ;
+        trailStop = linex + ( multiplier * ATR( dayPeriod ) );
+    }
+
+    return trailStop;
+}
+
+
+{
+    //initialize data
+
+    SetOption( "InitialEquity", 50000 );
+    SetOption( "CommissionMode", 3 );
+    SetOption( "MaxOpenPositions", 1 );
+    SetOption( "CommissionAmount", 46.60  );
+    SetOption( "Futuresmode", True );
+
+    SetOption( "AllowPositionShrinking", True );
+    SetOption( "AllowSameBarExit", False );
+    SetOption( "PriceBoundChecking", False );
+    SetOption( "ReverseSignalForcesExit", False );
+    SetOption( "UsePrevBarEquityForPosSizing", False );
+
+    TickSize = 0.1;
+    PointValue = 200;
+    RoundLotSize = 1;
+    MarginDeposit = 12000;
+
+    SetOption( "InterestRate", 0 );
+    SetOption( "MinPosValue", 0 );
+    SetOption( "MinShares", RoundLotSize );
+
+    p = Open;
+    SetTradeDelays( 1, 1, 1, 1 );
+
+    //p = Close;
+    //SetTradeDelays( 0, 0, 0, 0 );
+
+
+
+    Slip=0.1;
+    BuyPrice  = CoverPrice =  p+Slip;
+    SellPrice = ShortPrice  =  p-Slip;
+
+    //BuyPrice = SellPrice = ShortPrice = CoverPrice =  p;
+
+    Buy = Sell = Short = Cover = 0;
+
+
+    SetOption( "ExtraColumnsLocation", 1 );
+
+}
+
+{
+    //Set Position Size
+    SetPositionSize( 1, spsShares );
+
+}
+
+
+{
+    //Indicator setup
+
+
+    aPeriod1 = 10;
+    aPeriod2 = 15;
+    aFactor1 = 3;
+    aFactor2 = 2.5; 
+
+    bPeriod1 = 100;
+    bPeriod2 = 80; 
+    bFactor1 = 7;  
+    bFactor2 = 8.5;
+
+
+    rsiUp = 55;
+    rsiDown = 43;
+
+    rsix = RSI() ;
+    dynamic = true;
+
+    if( dynamic )
+    {
+        atrail = IIf( rsix > rsidown AND rsix < rsiup, ATRTrailByChandelier( aPeriod2, aFactor2, true ), ATRTrailByChandelier( aPeriod1, aFactor1, true ) ) ;
+        btrail = IIf( rsix > rsidown AND rsix < rsiup, ATRTrailByChandelier( bPeriod2, bFactor2, true ), ATRTrailByChandelier( bPeriod1, bFactor1, true ) ) ;
+    }
+    else
+    {
+        atrail = ATRTrailByChandelier( aPeriod1, aFactor1, true );
+        btrail = ATRTrailByChandelier( bPeriod1, bFactor1, true );
+    }
+
+    if( dynamic )
+    {
+        Buy = IIf( rsix > rsiDown AND rsix <rsiUp, C > atrail  AND C > btrail, rsix > rsiUp AND( C > atrail AND  C > btrail ) );
+        Sell = IIf( rsix > rsiDown AND rsix < rsiUp, C < atrail AND  C < btrail, rsix < rsidown  AND( C < atrail  AND C < btrail ) );
+
+    }
+    else
+    {
+        Buy = rsix > rsiUp AND( C > atrail AND  C > btrail );
+        Sell = rsix < rsidown  AND( C < atrail  AND C < btrail );
+    }
+
+    Short = Sell;
+    Cover = Buy;
+
+
+}
+
+
+{
+
+    ApplyExRem = 1;
+    //0 is don't apply exrem
+
+    if( ApplyExRem == 1 )
+    {
+        buy = ExRem( Buy, Sell );
+        Sell = ExRem( Sell, Buy );
+        Short = ExRem( Short, Cover );
+        Cover = ExRem( Cover, Short );
+    }
+    else
+        if( ApplyExRem == 2 )
+        {
+            Buy = ExRem( Buy, Short );
+            Short = ExRem( Short, Buy );
+        }
+}
+
+{
+    //Explore
+
+    Filter = Buy OR Sell OR  Short OR Cover ;
+    AddColumn( Buy, "Buy" , 1 );
+    AddColumn( Sell, "Sell", 1 );
+    AddColumn( Short, "Short", 1 );
+    AddColumn( Cover, "Cover", 1 );
+
+    AddColumn( Close, "C", 1.2 );
+    AddColumn( rsix , "rsi", 1.2 );
+    AddColumn( atrail, "atrail", 1.2 );
+    AddColumn( btrail, "btrail", 1.2 );
+
+
+
+}
+
+{
+    //Plot
+
+//Plot(atrail, "atrail",colorblack,styleline,Null,Null,0,0,1);
+    Plot( C, "Price", colorBlack, styleCandle );
+
+
+    /* Plot Buy and Sell Signal Arrows */
+    PlotShapes( IIf( Buy, shapeSquare, shapeNone ), colorGreen, 0, L, Offset = -10 );
+    PlotShapes( IIf( Buy, shapeSquare, shapeNone ), colorBrightGreen, 0, L, Offset = -30 );
+    PlotShapes( IIf( Buy, shapeUpArrow, shapeNone ), colorGreen, 0, L, Offset = -20 );
+
+    PlotShapes( IIf( Sell, shapeSquare, shapeNone ), colorRed, 0, H, Offset = 10 );
+    PlotShapes( IIf( Sell, shapeSquare, shapeNone ), colorOrange, 0, H, Offset = 30 );
+    PlotShapes( IIf( Sell, shapeDownArrow, shapeNone ), colorRed, 0, H, Offset = -20 );
+}

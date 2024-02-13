@@ -1,0 +1,16 @@
+function ATRTrailByDonchian(dayPeriod,multiplier,isLong){
+
+trailStop=Null;
+if(isLong==True)
+{
+linex= HHV(Ref( H,-1), dayPeriod ) ;
+trailStop= linex - (multiplier* ATR( dayPeriod ));
+}
+
+else{
+linex = LLV(Ref( L,-1) ,dayPeriod) ;
+trailStop = linex +( multiplier * ATR( dayPeriod ));
+}
+
+return trailStop;
+}

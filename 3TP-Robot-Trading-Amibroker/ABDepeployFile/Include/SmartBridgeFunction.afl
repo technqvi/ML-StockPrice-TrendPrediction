@@ -1,0 +1,332 @@
+function OrderSend(symbol, cmd, comment, voulume, price, slippage, sl, tp, magicnumber)
+{
+	local ret;
+	ret = _OrderSend(symbol, cmd, comment, voulume, price, slippage, sl, tp, magicnumber);
+	return ret;
+}
+
+function OrderModify(ticket, price, sl, tp)
+{
+	local ret;
+	ret = _OrderModify(ticket, price, sl, tp);
+	return ret;
+}
+
+function OrderClose(ticket, voulume, slippage)
+{
+	local ret;
+	ret = _OrderClose(ticket, voulume, slippage);
+	return ret;
+}
+
+function OrderDelete(ticket)
+{
+	local ret;
+	ret = _OrderDelete(ticket);
+	return ret;
+}
+
+function ClosePositionAll()
+{
+	local ret;
+	ret = _ClosePositionAll();
+	return ret;
+}
+
+function ClosePendingAll()
+{
+	local ret;
+	ret = _ClosePendingAll();
+	return ret;
+}
+
+function CloseAll()
+{
+	local ret;
+	ret = _CloseAll();
+	return ret;
+}
+
+function AccountInfo()
+{
+	local i, fh, str_line, str_path, str_temp;
+	i = 0;
+	fh = fopen( "account_info.dat", "r");
+	if( fh )
+	{	
+		while( ! feof( fh ) )
+		{
+			str_line = fgets(fh);
+			if(str_line != "")
+			{
+				for(item = 0; (str_path = StrExtract(str_line, item)) != ""; item++)
+				{
+					if(str_path != "\n")
+					{
+						if(item == 0)
+						{
+							StaticVarSetText( "AccountInfo.Server", str_path);
+							printf("AccountInfo.Server = " + StaticVarGetText("AccountInfo.Server") + "\n");
+						}
+						if(item == 1)
+						{
+							StaticVarSet( "AccountInfo.Profit", StrToNum(str_path));
+							printf("AccountInfo.Profit = %.2f\n", StaticVarGet("AccountInfo.Profit"));
+						}
+						if(item == 2)
+						{
+							StaticVarSet( "AccountInfo.AccNumber", StrToNum(str_path));
+							printf("AccountInfo.AccNumber = " + StaticVarGet("AccountInfo.AccNumber") + "\n");
+						}
+						if(item == 3)
+						{
+							StaticVarSetText( "AccountInfo.AccName", str_path);
+							printf("AccountInfo.AccName = " + StaticVarGetText("AccountInfo.AccName") + "\n");
+						}
+						if(item == 4)
+						{
+							StaticVarSet( "AccountInfo.Margin", StrToNum(str_path));
+							printf("AccountInfo.Margin = %.2f\n", StaticVarGet("AccountInfo.Margin"));
+						}
+						if(item == 5)
+						{
+							StaticVarSet( "AccountInfo.Leverage", StrToNum(str_path));
+							printf("AccountInfo.Leverage = " + StaticVarGet("AccountInfo.Leverage") + "\n");
+						}
+						if(item == 6)
+						{
+							StaticVarSet( "AccountInfo.FreeMargin", StrToNum(str_path));
+							printf("AccountInfo.FreeMargin = %.2f\n", StaticVarGet("AccountInfo.FreeMargin"));
+						}
+						if(item == 7)
+						{
+							StaticVarSet( "AccountInfo.Equity", StrToNum(str_path));
+							printf("AccountInfo.Equity = %.2f\n", StaticVarGet("AccountInfo.Equity"));
+						}
+						if(item == 8)
+						{
+							str_temp = str_path;
+						}
+						if(item == 9)
+						{
+							str_temp = str_temp + "," + str_path;
+							StaticVarSetText( "AccountInfo.Company", str_temp);
+							printf("AccountInfo.Company = " + StaticVarGetText("AccountInfo.Company") + "\n");
+						}
+						if(item == 10)
+						{
+							StaticVarSet( "AccountInfo.Balance", StrToNum(str_path));
+							printf("AccountInfo.Balance = %.2f\n", StaticVarGet("AccountInfo.Balance"));
+						}
+						if(item == 11)
+						{
+							StaticVarSet( "AccountInfo.TradeAllow", StrToNum(str_path));
+							printf("AccountInfo.TradeAllow = " + StaticVarGet("AccountInfo.TradeAllow") + "\n");
+						}
+						if(item == 12)
+						{
+							StaticVarSet( "AccountInfo.TradeMode", StrToNum(str_path));
+							printf("AccountInfo.TradeMode = " + StaticVarGet("AccountInfo.TradeMode") + "\n");
+						}
+					}
+				}
+				i++;
+			}
+		}
+	}
+	else
+	{
+		printf("ERROR: file can not be found (does not exist)");
+	}
+	fclose(fh);
+}
+
+function OrderActive()
+{
+	_OrderActive();
+	local i, fh, str_line, sym;
+	i = 0;
+	fh = fopen( "active_order.dat", "r");
+	if( fh )
+	{	
+		while(!feof(fh))
+		{
+			str_line = fgets(fh);
+			if(str_line != "")
+			{
+				//printf("index[" + i + "]: " + str_line);
+				StaticVarSetText( "OrderActive[" + i + "].Comment", "");
+				StrExtract( str_line, -1 );
+				for(item = 0; (sym = StrExtract(str_line, item)) != ""; item++)
+				{
+					if(sym != "\n")
+					{
+						if(item == 0)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Order", StrToNum(sym));
+							printf("OrderActive[" + i + "].Order = " + StaticVarGet("OrderActive[" + i + "].Order") + "\n");
+						}
+						if(item == 1)
+						{
+							StaticVarSetText( "OrderActive[" + i + "].OpenTime", sym);
+							printf("OrderActive[" + i + "].OpenTime = " + StaticVarGetText("OrderActive[" + i + "].OpenTime") + "\n");
+						}
+						if(item == 2)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Type", StrToNum(sym));
+							printf("OrderActive[" + i + "].Type = " + StaticVarGet("OrderActive[" + i + "].Type") + "\n");
+						}
+						if(item == 3)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Size", StrToNum(sym));
+							printf("OrderActive[" + i + "].Size = " + StaticVarGet("OrderActive[" + i + "].Size") + "\n");
+						}
+						if(item == 4)
+						{
+							StaticVarSetText( "OrderActive[" + i + "].Symbol", sym);
+							printf("OrderActive[" + i + "].Symbol = " + StaticVarGetText("OrderActive[" + i + "].Symbol") + "\n");
+						}
+						if(item == 5)
+						{
+							StaticVarSet( "OrderActive[" + i + "].OpenPrice", StrToNum(sym));
+							printf("OrderActive[" + i + "].OpenPrice = " + StaticVarGet("OrderActive[" + i + "].OpenPrice") + "\n");
+						}
+						if(item == 6)
+						{
+							StaticVarSet( "OrderActive[" + i + "].SL", StrToNum(sym));
+							printf("OrderActive[" + i + "].SL = " + StaticVarGet("OrderActive[" + i + "].SL") + "\n");
+						}
+						if(item == 7)
+						{
+							StaticVarSet( "OrderActive[" + i + "].TP", StrToNum(sym));
+							printf("OrderActive[" + i + "].TP = " + StaticVarGet("OrderActive[" + i + "].TP") + "\n");
+						}
+						if(item == 8)
+						{
+							StaticVarSet( "OrderActive[" + i + "].CurrentPrice", StrToNum(sym));
+							printf("OrderActive[" + i + "].CurrentPrice = " + StaticVarGet("OrderActive[" + i + "].CurrentPrice") + "\n");
+						}
+						if(item == 9)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Commission", StrToNum(sym));
+							printf("OrderActive[" + i + "].Commission = " + StaticVarGet("OrderActive[" + i + "].Commission") + "\n");
+						}
+						if(item == 10)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Swap", StrToNum(sym));
+							printf("OrderActive[" + i + "].Swap = " + StaticVarGet("OrderActive[" + i + "].Swap") + "\n");
+						}
+						if(item == 11)
+						{
+							StaticVarSet( "OrderActive[" + i + "].Profit", StrToNum(sym));
+							printf("OrderActive[" + i + "].Profit = " + StaticVarGet("OrderActive[" + i + "].Profit") + "\n");
+						}
+						if(item == 12)
+						{
+							StaticVarSetText( "OrderActive[" + i + "].Comment", sym);
+							//printf("OrderActive[" + i + "].Comment = " + StaticVarGetText("OrderActive[" + i + "].Comment") + "\n");
+						}
+					}
+				}
+				printf("OrderActive[" + i + "].Comment = " + StaticVarGetText("OrderActive[" + i + "].Comment") + "\n");
+				printf("\n");
+				i++;
+			}
+		}
+	}
+	else
+	{
+		printf("ERROR: file can not be found (does not exist)");
+	}
+	StaticVarSet("TotalOrderActive", i);
+	printf("TotalOrderActive = %g\n", StaticVarGet("TotalOrderActive"));
+	fclose(fh);
+}
+
+function OrderPending()
+{
+	_OrderPending();
+	local i, fh, str_line, sym;
+	i = 0;
+	fh = fopen( "pending_order.dat", "r");
+	if( fh )
+	{	
+		while(!feof(fh))
+		{
+			str_line = fgets(fh);
+			if(str_line != "")
+			{
+				//printf("index[" + i + "]: " + str_line);
+				StaticVarSetText( "OrderPending[" + i + "].Comment", "");
+				StrExtract( str_line, -1 );
+				for(item = 0; (sym = StrExtract(str_line, item)) != ""; item++)
+				{
+					if(sym != "\n")
+					{
+						if(item == 0)
+						{
+							StaticVarSet( "OrderPending[" + i + "].Order", StrToNum(sym));
+							printf("OrderPending[" + i + "].Order = " + StaticVarGet("OrderPending[" + i + "].Order") + "\n");
+						}
+						if(item == 1)
+						{
+							StaticVarSetText( "OrderPending[" + i + "].OpenTime", sym);
+							printf("OrderPending[" + i + "].OpenTime = " + StaticVarGetText("OrderPending[" + i + "].OpenTime") + "\n");
+						}
+						if(item == 2)
+						{
+							StaticVarSet( "OrderPending[" + i + "].Type", StrToNum(sym));
+							printf("OrderPending[" + i + "].Type = " + StaticVarGet("OrderPending[" + i + "].Type") + "\n");
+						}
+						if(item == 3)
+						{
+							StaticVarSet( "OrderPending[" + i + "].Size", StrToNum(sym));
+							printf("OrderPending[" + i + "].Size = " + StaticVarGet("OrderPending[" + i + "].Size") + "\n");
+						}
+						if(item == 4)
+						{
+							StaticVarSetText( "OrderPending[" + i + "].Symbol", sym);
+							printf("OrderPending[" + i + "].Symbol = " + StaticVarGetText("OrderPending[" + i + "].Symbol") + "\n");
+						}
+						if(item == 5)
+						{
+							StaticVarSet( "OrderPending[" + i + "].OpenPrice", StrToNum(sym));
+							printf("OrderPending[" + i + "].OpenPrice = " + StaticVarGet("OrderPending[" + i + "].OpenPrice") + "\n");
+						}
+						if(item == 6)
+						{
+							StaticVarSet( "OrderPending[" + i + "].SL", StrToNum(sym));
+							printf("OrderPending[" + i + "].SL = " + StaticVarGet("OrderPending[" + i + "].SL") + "\n");
+						}
+						if(item == 7)
+						{
+							StaticVarSet( "OrderPending[" + i + "].TP", StrToNum(sym));
+							printf("OrderPending[" + i + "].TP = " + StaticVarGet("OrderPending[" + i + "].TP") + "\n");
+						}
+						if(item == 8)
+						{
+							StaticVarSet( "OrderPending[" + i + "].CurrentPrice", StrToNum(sym));
+							printf("OrderPending[" + i + "].CurrentPrice = " + StaticVarGet("OrderPending[" + i + "].CurrentPrice") + "\n");
+						}
+						if(item == 9)
+						{
+							StaticVarSetText( "OrderPending[" + i + "].Comment", sym);
+							//printf("OrderPending[" + i + "].Comment = " + StaticVarGetText("OrderPending[" + i + "].Comment") + "\n");
+						}
+					}
+				}
+				printf("OrderPending[" + i + "].Comment = " + StaticVarGetText("OrderPending[" + i + "].Comment") + "\n");
+				printf("\n");
+				i++;
+			}
+		}
+	}
+	else
+	{
+		printf("ERROR: file can not be found (does not exist)");
+	}
+	StaticVarSet("TotalOrderPending", i);
+	printf("TotalOrderPending = %g\n", StaticVarGet("TotalOrderPending"));
+	fclose(fh);
+}
+

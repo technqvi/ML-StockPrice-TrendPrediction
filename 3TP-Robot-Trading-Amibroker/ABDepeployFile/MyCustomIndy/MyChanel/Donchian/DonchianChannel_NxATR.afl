@@ -1,0 +1,25 @@
+//https://forum.amibroker.com/t/applystop-calculation/879/4
+
+dayATRPeriod= Param("DayATR" ,22);
+multiplier=Param("XMultiplier",3.5,1,200);
+
+upperx=ParamColor("UpperColor",colorBrown);
+lowerx=ParamColor("LowerColor",colorBrown);
+middlex=ParamColor("MiddleColor",colorBrightGreen);
+
+DonchianUpper =HHV(Ref(H,-1),dayATRPeriod);
+DonchianLower = LLV(Ref(L,-1),dayATRPeriod);
+DonchianMiddle = (DonchianUpper+DonchianLower)/2;
+
+
+//For using ApplyStop(stopTypeTrailing, stopModePoint, ATRMultiple True, True );
+longStop= DonchianUpper - (multiplier* ATR( dayATRPeriod ));
+shortStop = DonchianLower  +( multiplier * ATR( dayATRPeriod ));
+
+
+Plot(longStop,"DCLongStop", ParamColor("DCLongStop-Color", colorRed), ParamStyle("DCLongStop-Style", styleDashed|styleThick));
+Plot(shortStop,"DCShortStop", ParamColor("DCShortStop-Color", colorGold), ParamStyle("DCShortStop-Style", styleDashed|styleThick));
+
+Plot(DonchianUpper,"DCTop", upperx,  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(DonchianMiddle,"DCMiddle",middlex,ParamStyle("StyleMiddle", styledots|styleThick));
+Plot(DonchianLower,"DCLow",lowerx,ParamStyle("StyleLower", styleLine|styleThick),Null,Null,0,0,2); 

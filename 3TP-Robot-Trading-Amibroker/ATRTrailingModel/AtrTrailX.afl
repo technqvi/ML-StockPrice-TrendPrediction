@@ -1,0 +1,9 @@
+
+
+#include_once<ATRForTralingStop.afl>
+vPeriod =  Param( "Volatility Period", 50 );
+XFactor = Param( "X Factor" , 3.4 );
+
+
+xtrail=ATRForTralingStop(vPeriod,XFactor);
+Plot(xtrail,"LossLine", ParamColor( "Color", colorRed ), ParamStyle("Style",styleLine|styleThick|styleDashed) );

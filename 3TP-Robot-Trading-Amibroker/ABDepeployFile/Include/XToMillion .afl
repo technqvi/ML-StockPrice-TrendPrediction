@@ -1,0 +1,5 @@
+function XToMillion ( xval)
+{
+
+return x*1000000;
+}

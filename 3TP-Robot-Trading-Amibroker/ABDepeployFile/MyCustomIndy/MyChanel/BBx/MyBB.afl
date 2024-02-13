@@ -1,0 +1,24 @@
+
+P = ParamField("Price field",-1);
+MAType=ParamList("Moving Average Type","SMA|EMA",0);
+Periods = Param("Periods", 22, 2, 300, 1 );
+Width = Param("Width", 2, 2, 4, 0.05 );
+Color = ParamColor("BandColor", colorCycle );
+Style = ParamStyle("BandStyle",styleThick);
+
+if(MAType=="SMA")
+maLine=MA(P,Periods );
+else  if(MAType=="EMA")
+maLine=EMA(P,Periods );
+
+Plot( BBandTop( P, Periods, Width ), "BBTop" + _PARAM_VALUES(), Color, Style ); 
+Plot( BBandBot( P, Periods, Width ), "BBBot" + _PARAM_VALUES(), Color, Style ); 
+Plot(maLine,"MidLine-"+MAType+ _PARAM_VALUES(),ParamColor("MidColor",colorDefault),ParamStyle("MidsStyle"));
+
+
+
+/*
+  * Middle Band = 20-day simple moving average (SMA)
+  * Upper Band = 20-day SMA + (20-day standard deviation of price x 2) 
+  * Lower Band = 20-day SMA - (20-day standard deviation of price x 2)
+*/

@@ -1,0 +1,5 @@
+dd = Day();
+mm = Month();
+yyyy = Year()
+
+nowTime = (yyyy * 10000) + (mm * 100) + dd;

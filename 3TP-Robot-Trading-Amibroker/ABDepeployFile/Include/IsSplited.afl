@@ -1,0 +1,21 @@
+function IsSplited(C,O,action)
+{
+percentx=0.301;
+c1=Ref(C,1);
+o1=Ref(O,1);
+c2=Ref(C,2);
+o2=Ref(O,2);
+
+avoidSplit=False;
+if(action=="buy" OR action=="b"){
+
+avoidSplit= !(c1/o1<1-percentx) AND !(c1/o1>1+percentx) AND   !(o2/c1<1-percentx) AND !(o2/c1>1+percentx);
+
+}
+else if(action=="sell" OR action=="s"){
+
+avoidSplit= (c1/o1<1-percentx) or (c1/o1>1+percentx) or   (o2/c1<1-percentx) OR (o2/c1>1+percentx);
+
+}
+return avoidSplit;
+}

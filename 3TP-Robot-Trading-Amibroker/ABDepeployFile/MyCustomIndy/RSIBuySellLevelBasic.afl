@@ -1,0 +1,14 @@
+SetChartOptions( 0, chartShowArrows, 0 );
+periods = Param( "Periods", 15, 1, 200, 1 );
+oversold = Param( "Oversold level", 40, 1, 100, 1 );
+overbought = Param( "Overbought level", 60, 1, 100, 1 );
+
+
+Plot( RSI( periods), _DEFAULT_NAME(), ParamColor( "Color", colorPaleBlue), ParamStyle("Style",styleLine|styleThick)  );
+
+//Plot number lever
+PlotGrid( oversold,colorRed,10 ,2);
+PlotGrid( overbought ,colorGreen,10,2);
+Plot( 50, _DEFAULT_NAME(), colorBlack , styleDashed|styleNoTitle |styleThick,Null,Null,0,0,2 );
+
+

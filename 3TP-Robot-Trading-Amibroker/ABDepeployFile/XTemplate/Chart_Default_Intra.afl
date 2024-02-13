@@ -1,0 +1,71 @@
+_SECTION_BEGIN("Price");
+SetChartOptions(0,chartShowArrows|chartShowDates);
+_N(Title = StrFormat("{{NAME}} - {{INTERVAL}} {{DATE}} Open %g, Hi %g, Lo %g, Close %g (%.1f%%) {{VALUES}}", O, H, L, C, SelectedValue( ROC( C, 1 ) ) ));
+Plot( C, "Close", ParamColor("Color", colorDefault ), styleNoTitle | ParamStyle("Style") | GetPriceStyle() ); 
+_SECTION_END();
+
+_SECTION_BEGIN("EMA");
+
+Periods = Param("Periods",10);
+Plot( EMA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorBlue ), ParamStyle("Style",styleLine|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("EMA1");
+
+Periods = Param("Periods", 25 ,20,35);
+Plot( EMA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorLime ), ParamStyle("Style",styleLine|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("EMA2");
+Periods = Param("Periods", 50,50,75);
+Plot( EMA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorcustom12 ), ParamStyle("Style",styleLine|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("MA3");
+
+Periods = Param("Periods", 50 ,50,75);
+Plot( MA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorBrown ), ParamStyle("Style",styleDots|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("EMA3");
+
+Periods = Param("Periods", 100,100,150);
+Plot( EMA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorCustom11 ), ParamStyle("Style",styleLine|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("EMA4");
+
+Periods = Param("Periods", 200 ,200,250);
+Plot( EMA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorBlack ), ParamStyle("Style",styleLine|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("MA5");
+
+Periods = Param("Periods", 200,200,250 );
+Plot( MA( C, Periods ), _DEFAULT_NAME(), ParamColor( "Color", colorGrey50), ParamStyle("Style",styleDots|styleThick) ); 
+_SECTION_END();
+
+_SECTION_BEGIN("ZIG - Zig");
+P = ParamField( "Price field" );
+change = Param("% change",0.6);
+Plot( Zig(P, change), _DEFAULT_NAME(), ParamColor( "Color", colorViolet ), ParamStyle("Style",styleLine|styleThick)  );
+_SECTION_END();
+
+
+_SECTION_BEGIN("DonchianChannel");
+
+DCLengthHi=Param("DCLengthHi",50,2,300,1);
+DCLengthLow=Param("DCLengthLow",50,2,300,1);
+upperx=ParamColor("UpperBand",colorBrown);
+lowerx=ParamColor("LowerBand",colorBrown);
+middlex=ParamColor("MiddleLine",colorDarkGrey);
+
+DonchianUpper =HHV(Ref(H,-1),DCLengthHi);
+DonchianLower = LLV(Ref(L,-1),DCLengthLow);
+DonchianMiddle = (DonchianUpper+DonchianLower)/2;
+
+
+Plot(DonchianUpper,"DCTop", upperx,  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(DonchianMiddle,"DCMiddle",middlex,ParamStyle("StyleMiddle", styledots|styleThick));
+Plot(DonchianLower,"DCLow",lowerx,ParamStyle("StyleLower", styleLine|styleThick),Null,Null,0,0,2); 
+_SECTION_END();

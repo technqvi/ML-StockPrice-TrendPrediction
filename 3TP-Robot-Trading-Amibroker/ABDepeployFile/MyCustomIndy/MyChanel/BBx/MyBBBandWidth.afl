@@ -1,0 +1,34 @@
+// Downloaded From www.WiseStockTrader.com
+//  Formula Name:    Bollinger Bandwidth
+//  Author/Uploader: Buvanes					 
+//  E-mail:          buvanes1989@gmail.com	
+//  Date/Time Added: 15.0.2010 12:45:00
+//  Origin:          Translated from the "Bollinger on Bollinger" by Dennis Skoblar
+//  Keywords:        Bollinger
+
+//volatility is plotted on a percentage basis. Used for trading system
+//volatility should be compared on a relative basis not on 
+//absolute basis. A six month low should be taken as a period of extreme low volatility
+//according to bollinger. THen a breakout can be traded with the help of bollinger band.
+//however u can backtest according to your wish
+_SECTION_BEGIN("Bollinger Bandwidth");
+
+P = ParamField("Price field",-1);
+a1=Param("period",22,10,50,1,0);
+a2=Param("Standard Deviation",2,2,4,0.5);
+
+MAType=ParamList("Moving Average Type","SMA|EMA",0);
+
+a3=BBandTop(P, a1, a2);
+a4=BBandBot(P, a1, a2);
+a5=a3-a4;
+
+
+if(MAType=="SMA")
+a6=MA(P,a1 );
+else  if(MAType=="EMA")
+a6=EMA(P,a1 );
+
+a7=a5/a6*100;
+Plot( a7,"Bollinger Bandwidth",ParamColor( "color", colorBlue ), ParamStyle("Style")  );
+_SECTION_END();

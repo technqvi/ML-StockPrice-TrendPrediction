@@ -1,0 +1,11 @@
+
+pdsUp=Param("DCLengthUo",25,2,300,1);
+pdsDown=Param("DCLengthDown",25,2,300,1);
+DonchianUpper =HHV(Ref(C,-1),pdsUp);
+DonchianLower = LLV(Ref(C,-1),pdsDown);
+DonchianMiddle = (DonchianUpper+DonchianLower)/2;
+
+
+Plot(DonchianUpper,"DCTop",colorBlue,styleThick);
+Plot(DonchianMiddle,"DCMiddle",colorGreen,styleThick);
+Plot(DonchianLower,"DCLow",colorRed,styleThick); 

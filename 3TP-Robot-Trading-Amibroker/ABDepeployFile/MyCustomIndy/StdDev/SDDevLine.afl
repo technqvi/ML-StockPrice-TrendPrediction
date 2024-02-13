@@ -1,0 +1,27 @@
+P = ParamField("Price field",-1);
+PeriodsForStDev = Param("PeriodsForStDev", 39 );
+
+RefPeriods=Param("RefPeriods",-1,-250,250,1);
+
+
+
+StdDevLineTop=Null;
+StdDevLineButtom=Null;
+
+StdDevLineTop=P+StDev(P,PeriodsForStDev,False);
+StdDevLineButtom=P-StDev(P,PeriodsForStDev,False);
+
+if(RefPeriods!=0){
+StdDevLineTop=Ref(StdDevLineTop,RefPeriods);
+StdDevLineButtom=Ref(StdDevLineButtom,RefPeriods);
+
+}
+
+
+
+
+Plot( StdDevLineTop, "StDevButtom-"+_PARAM_VALUES(),ParamColor("LineTopColor", colorCycle ), ParamStyle("LineTopStyle", styleLine | styleNoLabel)); 
+
+Plot( StdDevLineButtom, "StDevTop-"+_PARAM_VALUES(), ParamColor("LineButtomColor", colorCycle ),  ParamStyle("LineButtomStyle", styleLine | styleNoLabel) ); 
+
+

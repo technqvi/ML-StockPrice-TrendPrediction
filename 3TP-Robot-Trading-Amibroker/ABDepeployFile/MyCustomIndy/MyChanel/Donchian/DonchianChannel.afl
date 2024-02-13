@@ -1,0 +1,16 @@
+// Downloaded From www.WiseStockTrader.com
+// Plots a 20 period DonchianChannel
+DCLengthHi=Param("DCLengthHi",22,2,500,1);
+DCLengthLow=Param("DCLengthLow",22,2,500,1);
+upperx=ParamColor("UpperBand",colorBrown);
+lowerx=ParamColor("LowerBand",colorBrown);
+middlex=ParamColor("MiddleLine",colorBrightGreen);
+
+DonchianUpper =HHV(Ref(H,-1),DCLengthHi);
+DonchianLower = LLV(Ref(L,-1),DCLengthLow);
+DonchianMiddle = (DonchianUpper+DonchianLower)/2;
+
+
+Plot(DonchianUpper,"DCTop", upperx,  ParamStyle("StyleUpper", styleLine|styleThick) ,Null,Null,0,0,2);
+Plot(DonchianMiddle,"DCMiddle",middlex,ParamStyle("StyleMiddle", styledots|styleThick));
+Plot(DonchianLower,"DCLow",lowerx,ParamStyle("StyleLower", styleLine|styleThick),Null,Null,0,0,2); 
