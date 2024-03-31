@@ -9,7 +9,10 @@ This project revolved around 2 main parts
 * Building rules-based system trading to trade SET50 Future using Amibroker software
   * Write trading signal logic (buy/sell) using [AmiBroker Formula Language (AFL)](https://www.amibroker.com/guide/AFL.html)
   * Send buy/sell order to Stock Market.
- 
+  
+ # [TimeSeries-LSTM-Forecast-PriceMovement 2023](https://github.com/technqvi/TimeSeries-LSTM-Forecast-PriceMovement)
+* It is project to predict  stock trend direction of the future price movement  by LSTM Time-Series.
+* It is same purpose as this project(https://github.com/technqvi/ML-StockPrice-TrendPrediction)] but user differet approch.
  
  ## Main flow
  ### Tool, OS and Sofware To Run on Production 
